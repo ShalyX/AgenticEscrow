@@ -7,48 +7,21 @@ class AgenticEscrow {
 
   constructor(contractAddress, account = null, studioUrl = null) {
     this.contractAddress = contractAddress;
-    
-    // Custom chain configuration for GenLayer Studio Testnet
-    const studio = {
-      ...simulator,
-      id: 61999,
-      name: "GenLayer Studio",
-      rpcUrls: {
-        default: {
-          http: [studioUrl || "https://studio.genlayer.com/api"]
-        }
-      },
-      nativeCurrency: {
-        name: "GEN",
-        symbol: "GEN",
-        decimals: 18,
-      },
-    };
 
     const config = {
-      chain: studio,
+      chain: simulator,
       ...(account ? { account } : {}),
+      ...(studioUrl ? { endpoint: studioUrl } : { endpoint: import.meta.env.VITE_STUDIO_URL || "https://studio.genlayer.com/api" }),
     };
     this.client = createClient(config);
   }
 
   updateAccount(account) {
-    const studio = {
-      ...simulator,
-      id: 61999,
-      name: "GenLayer Studio",
-      rpcUrls: {
-        default: {
-          http: [import.meta.env.VITE_STUDIO_URL || "https://studio.genlayer.com/api"]
-        }
-      },
-      nativeCurrency: {
-        name: "GEN",
-        symbol: "GEN",
-        decimals: 18,
-      },
-    };
-    this.client = createClient({ chain: studio, account });
+    this.client = createClient({ 
+      chain: simulator, 
+      account,
+      endpoint: import.meta.env.VITE_STUDIO_URL || "https://studio.genlayer.com/api"
+    });
   }
 
   async getAllBounties() {

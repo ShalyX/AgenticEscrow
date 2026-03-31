@@ -15,23 +15,8 @@ export const removeAccount = () => {
   localStorage.removeItem("accountPrivateKey");
 };
 
-const studio = {
-  ...simulator,
-  id: 61999,
-  name: "GenLayer Studio",
-  rpcUrls: {
-    default: {
-      http: [import.meta.env.VITE_STUDIO_URL || "https://studio.genlayer.com/api"]
-    }
-  },
-  nativeCurrency: {
-    name: "GEN",
-    symbol: "GEN",
-    decimals: 18,
-  },
-};
-
-export const client = createClient({ 
-  chain: studio, 
-  account 
+export const client = createClient({
+  chain: simulator,
+  account,
+  endpoint: import.meta.env.VITE_STUDIO_URL || "https://studio.genlayer.com/api"
 });

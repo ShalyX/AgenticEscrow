@@ -1,101 +1,65 @@
-# Sample GenLayer project
+# Agentic Escrow
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/license/mit/)
 [![Discord](https://dcbadge.vercel.app/api/server/8Jm4v89VAu?compact=true&style=flat)](https://discord.gg/8Jm4v89VAu)
 [![Telegram](https://img.shields.io/badge/Telegram--T.svg?style=social&logo=telegram)](https://t.me/genlayer)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/yeagerai.svg?style=social&label=Follow%20%40GenLayer)](https://x.com/GenLayer)
-[![GitHub star chart](https://img.shields.io/github/stars/yeagerai/genlayer-project-boilerplate?style=social)](https://star-history.com/#yeagerai/genlayer-js)
 
 ## 👀 About
-This project includes the boilerplate code for a GenLayer use case implementation, specifically a football bets game.
+Agentic Escrow is the first decentralized freelance bounty platform where AI agents act as incorruptible judges. Built on the GenLayer network, it allows clients to post bounties with natural language requirements, freelancers to submit work, and an Intelligent Contract to evaluate the submissions using LLM consensus.
 
 ## 📦 What's included
-- Basic requirements to deploy and test your intelligent contracts locally
-- Configuration file template
-<!-- - Test functions to write complete end-to-end tests -->
-- An example of an intelligent contract (Football Bets)
-- Example end-to-end tests for the contract provided
+- The `AgenticEscrow.py` intelligent contract.
+- A modern Vue.js frontend to interact with the contract.
+- Deployment scripts for the GenLayer network.
 
 ## 🛠️ Requirements
-- A running GenLayer Studio (Install from [Docs](https://docs.genlayer.com/developers/intelligent-contracts/tooling-setup#using-the-genlayer-studio) or work with the hosted version of [GenLayer Studio](https://studio.genlayer.com/)). If you are working locally, this repository code does not need to be located in the same directory as the Genlayer Studio.
+- Ensure you have Node.js and npm installed.
+- Access to the GenLayer Bradbury Testnet (or a local GenLayer Studio).
 
-## 🚀 Steps to run this example
+## 🚀 Steps to run this project
 
-### 1. Configure environment
-   Rename the `.env.example` file to `.env`, then fill in the values for your configuration. The provided values are the standard values for a tipical GenLayer Studio deployed locally.
+### 1. Configure backend environment
+   Rename the `.env.example` file to `.env`, then fill in the values for your configuration if you need to run tests locally.
 
 ### 2. Deploy the contract
-   Deploy the contract from `/contracts/football_bets.py` using the Studio's UI:
-   1. Open the GenLayer Studio interface in your web browser (usually at http://localhost:8080).
-   2. Create a new file in the "Contracts" section and paste the content of `/contracts/football_bets.py` (the content is different than the existing contract from the examples).
-   3. Navigate to the "Run and Debug" section.
-   4. Follow the on-screen instructions to complete the deployment process.
+   Deploy the contract from `/contracts/AgenticEscrow.py` using the GenLayer CLI or Studio:
+   1. Open the GenLayer Studio interface.
+   2. Paste the contents of `/contracts/AgenticEscrow.py`.
+   3. Deploy the contract.
+   4. Note the deployed contract address.
 
 ### 3. Setup the frontend environment
-  1. All the content of the dApp is located in the `/app` folder.
-  2. Rename the `.env.example` file in the `/app` folder to `.env`.
-  3. Add the deployed contract address to the `/app/.env` under the variable `VITE_CONTRACT_ADDRESS`
+   1. Navigate to the `/app` folder.
+   2. Rename `.env.example` to `.env`.
+   3. Add the deployed contract address to the `/app/.env` under the variable `VITE_CONTRACT_ADDRESS`.
+   4. Set the `VITE_STUDIO_URL` to `https://studio.genlayer.com/api` (or your local node).
 
 ### 4. Run the frontend Vue app
-   Ensure your GenLayer Studio is running, and execute the following commands in your terminal:
+   Execute the following commands in your terminal:
    ```shell
    cd app
    npm install
    npm run dev
    ```
-   The terminal should display a link to access your frontend app (usually at http://localhost:5173/).
-   For more information on the code see [GenLayerJS](https://github.com/yeagerai/genlayer-js).
-   
-### 5. Test contracts
-1. Install the Python packages listed in the `requirements.txt` file in a virtual environment.
-2. Make sure your GenLayer Studio is running. Then execute the following command in your terminal:
-   ```shell
-   gltest
-   ```
+   The terminal will display a link to access the DApp (usually at http://localhost:5173/).
 
-## ⚽ How the Football Bets Contract Works
+## 🤖 How the Agentic Escrow Contract Works
 
-The Football Bets contract allows users to create bets for football matches, resolve those bets, and earn points for correct bets. Here's a breakdown of its main functionalities:
+The Agentic Escrow contract securely holds funds and evaluates submissions using AI:
 
-1. Creating Bets:
-   - Users can create a bet for a specific football match by providing the game date, team names, and their predicted winner.
-   - The contract checks if the game has already finished and if the user has already made a bet for this match.
-
-2. Resolving Bets:
-   - After a match has concluded, users can resolve their bets.
-   - The contract fetches the actual match result from a specified URL.
-   - If the Bet was correct, the user earns a point.
-
-3. Querying Data:
-   - Users can retrieve all bets.
-   - The contract also allows querying of points, either for all players or for a specific player.
-
-4. Getting Points:
-   - Points are awarded for correct bets.
-   - Users can check their total points or the points of any player.
-
-## 🧪 Tests
-
-This project includes integration tests that interact with the contract deployed in the Studio. These tests cover the main functionalities of the Football Bets contract:
-
-1. Creating a bet
-2. Resolving a bet
-3. Querying bets for a player
-4. Querying points for a player
-
-The tests simulate real-world interactions with the contract, ensuring that it behaves correctly under various scenarios. They use the GenLayer Studio to deploy and interact with the contract, providing a comprehensive check of the contract's functionality in a controlled environment.
-
-To run the tests, use the `gltest` command as mentioned in the "Steps to run this example" section.
-
+1. **Creating Bounties**: Clients post tasks describing requirements in natural language and lock native GEN tokens as a reward.
+2. **Submitting Work**: Freelancers submit a URL to their completed work (e.g., a GitHub link).
+3. **AI Evaluation**: The `evaluate_submission` function uses GenLayer's LLM consensus architecture. The network accesses the submitted URL, reads the freelancer's work, and compares it against the client's original natural-language requirement.
+4. **Resolution**: If the AI judge approves the work, the smart contract automatically releases the locked funds to the freelancer and records the AI's reasoning.
 
 ## 💬 Community
 Connect with the GenLayer community to discuss, collaborate, and share insights:
-- **[Discord Channel](https://discord.gg/8Jm4v89VAu)**: Our primary hub for discussions, support, and announcements.
-- **[Telegram Group](https://t.me/genlayer)**: For more informal chats and quick updates.
-
-Your continuous feedback drives better product development. Please engage with us regularly to test, discuss, and improve GenLayer.
+- **[Discord Channel](https://discord.gg/8Jm4v89VAu)**
+- **[Telegram Group](https://t.me/genlayer)**
 
 ## 📖 Documentation
-For detailed information on how to use GenLayerJS SDK, please refer to our [documentation](https://docs.genlayer.com/).
+For detailed information on how to build intelligent contracts and use the GenLayerJS SDK, please refer to the [GenLayer Documentation](https://docs.genlayer.com/).
 
 ## 📜 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
